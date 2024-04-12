@@ -1,5 +1,7 @@
-# TBD
-TO BE DETERMINED
+# Dino Run
+"Dinosaur Game" remake for Nintendo DS
+
+Based on the game available at `chrome://dino` on Chromium based web browsers.
 
 Konputagailuen Egitura irakasgairako proiektua.
 

@@ -13,7 +13,7 @@ adibide batean oinarrituta.
 #include "grafikoak.h"		
 #include "definizioak.h"
 #include "spriteak.h"
-#include "jokoa01.h"
+#include "game.h"
 
 
 //---------------------------------------------------------------------------------
@@ -24,7 +24,7 @@ int main(void) {
 	allowStops();
 
 	// Zuen jokoari dei egingo zaio hemendik
-	jokoa01();
+	game();
 
 	denyStops();
 	return(0);

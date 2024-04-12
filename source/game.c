@@ -17,30 +17,7 @@ adibide batean oinarrituta.
 
 int denb; // denbora neurtzen joateko; baloratu ea beharrezkoa den
 
-void jokoa01()
-{	
-	// Aldagai baten definizioa
-	int i=9;
-	int tekla=0;
-
-	EGOERA=WAITING;
-	
-	
-	iprintf("\x1b[22;5HTestu pantaila probatzen");	// Hau 22 lerroan eta 5 zutabean hasiko da idazten.
-							//Aldagai baten idatzi nahi izanez gero, %d komatxoen barruan eta 
-							//komatxoen kanpoan aldagaiaren balioa.
-	iprintf("\x1b[23;5HAldagai proba. Balioa=%d", i);
-	erakutsiFondoBat();
-
-	//******************************2.JARDUERAN************************************************//
-	// Teklatua konfiguratu behar da.	
-	// Tenporizadorea konfiguratu behar da.
-	// Etenen zerbitzu errutinak ezarri behar dira.
-	// Teklatuaren etenak baimendu behar dira.
-	// Tenporizadorearen etenak baimendu behar dira.
-	// Etenak baimendu behar dira.
-	//***************************************************************************************//
-
+void game() {
 	// KB Config
 	int KB_conf = 0b0100001111111111; // No keys with interrupts, all keys with direct polling
 	configKeyboard(KB_conf);
@@ -57,12 +34,15 @@ void jokoa01()
 
 	// Set ZE
 	setZE();
-
-	while(1)
-	{	
+	//Set variables
+	int dinoY = 0;
+	int canJump = true;
+	while(true) {	
 		/*************************************1.JARDUERAN**************************************/
 		// ZAI egoeran dagoela, hemen teklatuaren inkesta egin, sakatu den tekla pantailaratu, eta START
 		// sakatzean egoera aldatu
+		
+
 		if (detectKey()) {
 			int key = pressedKey();
 			iprintf("\x1b[1;1HTekla: %c", key);

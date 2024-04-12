@@ -12,52 +12,76 @@ periferikoak.c
 int EGOERA; // Automata zein egoeratan dagoen adierazteko erabilia
 int seg3;   // Hiru segundo pasatzen ote diren ikusten joateko
 
-void ZE_Keyboard()
-{
-if (EGOERA == CLOSED)
-{	
-	if (pressedKey() == A)
+void ZE_Keyboard() {
+(|START)	switch (EGOERA)
 	{
-		EGOERA = OPEN;
-		iprintf("\x1b[13;5HPasa diren segunduak=%d", seg3);
-		erakutsiAteaIrekita();
-		seg3 = 0;
-		ErakutsiErronboa(1, 5, 5);
-		ErakutsiErronboHandia(2, 100, 100);
-	}
-}
-}
+	case STARTUP:
+		/* code */
+		break;
 
-void ZE_Timer0()
-{
-	static int tik=0;
-	static int seg=0;
-	
+	case INGAME:
+		// Tekla bat sakatu dela detektatu
+		if (detectKey()) {
+			int key = pressedKey();
 
-if (EGOERA != WAITING)
-{
-	tik++; 
-	if (tik == 5)
-	{
-		seg++;
-		iprintf("\x1b[13;5HPasa diren segunduak=%d", seg);
-		tik=0;
-		if (EGOERA == OPEN)
-		{
-			seg3++;
-			if (seg3 == 3)
-			{
-				erakutsiAtea();
-				seg3 = 0;
-				EGOERA = CLOSED;
-				EzabatuErronboa(1, 5, 5);
-				EzabatuErronboHandia(2, 100, 100);
+			if (key == A || key == UP) {
+				//DinoVy=-5;
+				jump();
 			}
 		}
-				
+		break;
+		
+	case OVER:
+		break;
+	
+	default:
+		break;
 	}
 }
+
+void ZE_Timer0() {
+	switch (EGOERA)
+	{
+	case STARTUP:
+		/* code */
+		break;
 	
+	case INGAME:
+		checkJump();
+		
+		////////
+		//DINO//
+	  	////////
+
+		//////////
+		//KAKTUS//
+		//////////
+		cactusX--;
+		//////////////
+		//METEORITOA//
+		//////////////
+		meteoriteY++;
+
+		if (cactusX < -16) {
+			cactusX = 256;
+		}
+
+		if (meteoriteY == 192) {
+			EGOERA = OVER;
+		}
+		break;
+	
+	case OVER:
+		/* code */
+		break;
+
+	case STOP:
+		/* code */
+		break;
+		
+	default:
+		break;
+	}
 }
 
 void setZE()

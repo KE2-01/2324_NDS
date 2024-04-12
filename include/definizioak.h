@@ -43,8 +43,9 @@ extern touchPosition PANT_DAT;
 #define R 8 
 #define L 9
 
-#define WAITING 0
-#define CLOSED 1
-#define OPEN 2
+#define STARTUP 0
+#define INGAME 1
+#define OVER 2
+#define STOP 3
 extern int EGOERA;
 
