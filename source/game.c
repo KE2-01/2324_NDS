@@ -17,14 +17,15 @@ adibide batean oinarrituta.
 
 int denb; // denbora neurtzen joateko; baloratu ea beharrezkoa den
 int playerY; // Jokalaria Y ardatzean
+extern int cactusX; // Kaktusen posizioa
 
 void game() {
 	// KB Config
 	int KB_conf = 0b0100001111111111; // No keys with interrupts, all keys with direct polling
 	configKeyboard(KB_conf);
 
-	// Timer0 config (5 stops per second)
-	int Latch = 58982; //65536 - ((1/5) * (33554432 / 1024)) = 65536 - (1/5) * 32768 = 65536 - 6554 = 58982
+	// Timer0 config (20 stops per second)
+	int Latch = 63998; //65536 - ((1/20) * (33554432 / 1024)) = 65536 - (1/20) * 32768 = 65536 - 1538 = 63998
 	int Timer0_conf = 0xC3; // Timer enabled, 1024 prescaler, clock overflow interrupt enabled (0b11000011)
 	configTimer(Latch, Timer0_conf);
 
@@ -36,7 +37,7 @@ void game() {
 	// Set ZE
 	setZE();
 	//Set variables
-	playerY = 178;
+	playerY = 176;
 
 	// Set background
 	changeBG(BG_STARTUP);
@@ -50,6 +51,9 @@ void game() {
 		iprintf("\x1b[4;5Hv0.1");
 		iprintf("\x1b[6;5HPress START or A to play");
 		iprintf("\x1b[8;5HSTATE: %d", STATE);
+		iprintf("\x1b[10;5HPlayer can jump: %d", canJump());
+		iprintf("\x1b[12;5HPlayer Y: %d", playerY);
+		iprintf("\x1b[14;5HcactusX: %d", cactusX);
 			
 	}
 
@@ -64,29 +68,23 @@ bool canJump() {
 
 void jump() {
 	playerY = 150;
-	iprintf("\x1b[16;5HPlayer Y: %d", playerY);
 }
 
-/*bool dinoKaktusTalka(){
-	int dinoX
+/* bool dinoKaktusTalka(){
+	int dinoX = 0;
 	int dinoW = 16;
-	int dinoH;
-	int kaktusY;
-	int kaktusW = 16;
-	int kaktusH;
-	if (
-    dinoX   < kaktusX + kaktusW &&
-    dinoX   + dinoW   > kaktusX &&
-    playerY < kaktusY + kaktusH &&
-    playerY + dinoH   > kaktusY
-  ) {
-    // Collision detected!
-	return true;
-  } else {
-    // No collision
-	return false;
-  }
-}*/
+	int dinoH = 16;
+	int cactusY = 176;
+	return (
+	dinoX   < cactusX + 16 &&
+    dinoX   + dinoW   > cactusX &&
+    playerY < cactusY + 16 &&
+    playerY + dinoH   > cactusY
+    )
+} */
+
+//////
+//Trash//
 /*void ingameToOver(){
 	cleanScreen();
 	hidePlayer();

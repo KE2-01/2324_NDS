@@ -29,18 +29,32 @@ void ZE_Keyboard() {
 			break;
 		
 		case INGAME:
-			if (cactusX > -50){
+			if (cactusX > -50) {
 				cactusX--;
 			}else{
 				cactusX = 300;
 			}
 			if (canJump() && (key == A || key == UP)) jump();
+			if (key == DOWN) {
+				changeBG(BG_OVER);
+				STATE = OVER;
+			}
 			break;
 
 		case OVER:
-			if (key == B){
+			switch (key) {
+			case A:
+				changeBG(BG_INGAME);
+				STATE = INGAME;
+				break;
+		
+			case B:
 				changeBG(BG_STOP);
 				STATE = STOP;
+				break;
+
+			default:
+				break;
 			}
 			break;
 
@@ -51,9 +65,16 @@ void ZE_Keyboard() {
 }
 
 void ZE_Timer0() {
-	switch (STATE) {
+	if (STATE == INGAME) {
+		if (playerY < 176) {
+			playerY++;
+		}
+		if (cactusX < -16) {
+			cactusX = 300;
+		} else cactusX--;
+	}
+	/* switch (STATE) {
 	case STARTUP:
-		/* code */
 		break;
 	
 	case INGAME:
@@ -69,10 +90,6 @@ void ZE_Timer0() {
 		//METEORITOA//
 		//////////////
 		meteoriteY++;
-
-		if (cactusX < -16) {
-			cactusX = 300;
-		}
 		if(dinoKaktusTalka()){
 			//ingameToOver();
 			STATE = OVER;
@@ -88,16 +105,14 @@ void ZE_Timer0() {
 		break;
 	
 	case OVER:
-		/* code */
 		break;
 
 	case STOP:
-		/* code */
 		break;
 		
 	default:
 		break;
-	}
+	} */
 }
 
 void setZE()
