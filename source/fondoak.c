@@ -11,6 +11,7 @@ adibide batean oinarrituta.
 /* Fondo desberdinak erakutsi nahi izango baditugu, hemen fondo bakoitzaren burukoa (.h fitxategia) gehitu behar da. Buruko horiek
 automatikoki sortzen dira, konpilatzerako garaian, baina horretarako gogoratu behar da */
 
+#include "definizioak.h"
 #include "fondoak.h"
 #include "grafikoak.h"
 #include "FondoBat.h"
@@ -53,4 +54,21 @@ void erakutsiAteaIrekita() {
                      AteaIrekitaBitmap, /* Automatikoki sortzen den aldagaia */
                      (uint16 *)BG_BMP_RAM(0), /* Fondo nagusiaren helbidea */
                      AteaIrekitaBitmapLen); /* Luzera (bytetan); automatikoki sortzen den aldagaia */
+}
+
+void changeBG(int BG) {
+    switch (BG) {
+        case BG_STARTUP:
+            erakutsiFondoBat();
+            break;
+        case BG_INGAME:
+            erakutsiFondoBi();
+            break;
+        case BG_OVER:
+            erakutsiAtea();
+            break;
+        case BG_STOP:
+            erakutsiAteaIrekita();
+            break;
+    }
 }

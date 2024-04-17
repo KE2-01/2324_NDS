@@ -9,46 +9,54 @@ periferikoak.c
 #include "fondoak.h"
 #include "spriteak.h"
 
-int EGOERA; // Automata zein egoeratan dagoen adierazteko erabilia
+int STATE; // Automata zein egoeratan dagoen adierazteko erabilia
 int seg3;   // Hiru segundo pasatzen ote diren ikusten joateko
+int cactusX; // Kaktusen posizioa
+int meteoriteY; // Meteoritoen posizioa
+extern int playerY; // Jokalaria Y ardatzean
 
 void ZE_Keyboard() {
-(|START)	switch (EGOERA)
-	{
-	case STARTUP:
-		/* code */
-		break;
-
-	case INGAME:
-		// Tekla bat sakatu dela detektatu
-		if (detectKey()) {
-			int key = pressedKey();
-
-			if (key == A || key == UP) {
-				//DinoVy=-5;
-				jump();
+	if (detectKey()) {
+		int key = pressedKey();
+		switch (STATE) {
+		case STARTUP:
+			if (key == A || key == START) {
+				changeBG(BG_INGAME);
+				cactusX = 300;
+				meteoriteY = -50;
+				STATE = INGAME;
 			}
-		}
-		break;
+			break;
 		
-	case OVER:
-		break;
-	
-	default:
-		break;
+		case INGAME:
+			if (cactusX > -50){
+				cactusX--;
+			}else{
+				cactusX = 300;
+			}
+			if (canJump() && (key == A || key == UP)) jump();
+			break;
+
+		case OVER:
+			if (key == B){
+				changeBG(BG_STOP);
+				STATE = STOP;
+			}
+			break;
+
+		default:
+			break;
+		}
 	}
 }
 
 void ZE_Timer0() {
-	switch (EGOERA)
-	{
+	switch (STATE) {
 	case STARTUP:
 		/* code */
 		break;
 	
 	case INGAME:
-		checkJump();
-		
 		////////
 		//DINO//
 	  	////////
@@ -63,11 +71,19 @@ void ZE_Timer0() {
 		meteoriteY++;
 
 		if (cactusX < -16) {
-			cactusX = 256;
+			cactusX = 300;
+		}
+		if(dinoKaktusTalka()){
+			//ingameToOver();
+			STATE = OVER;
 		}
 
-		if (meteoriteY == 192) {
-			EGOERA = OVER;
+		if (meteoriteY > 192-16) {
+			//ingameToOver();
+			STATE = OVER;
+		}
+		if (playerY < 176) {
+			playerY++;
 		}
 		break;
 	

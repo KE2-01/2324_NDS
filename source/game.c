@@ -16,6 +16,7 @@ adibide batean oinarrituta.
 #include "fondoak.h"
 
 int denb; // denbora neurtzen joateko; baloratu ea beharrezkoa den
+int playerY; // Jokalaria Y ardatzean
 
 void game() {
 	// KB Config
@@ -35,26 +36,60 @@ void game() {
 	// Set ZE
 	setZE();
 	//Set variables
-	int dinoY = 0;
-	int canJump = true;
-	while(true) {	
+	playerY = 178;
+
+	// Set background
+	changeBG(BG_STARTUP);
+	STATE = STARTUP;
+
+	while(STATE != STOP) {
 		/*************************************1.JARDUERAN**************************************/
 		// ZAI egoeran dagoela, hemen teklatuaren inkesta egin, sakatu den tekla pantailaratu, eta START
 		// sakatzean egoera aldatu
-		
-
-		if (detectKey()) {
-			int key = pressedKey();
-			iprintf("\x1b[1;1HTekla: %c", key);
-
-			if (pressedKey() == START) {
-				erakutsiAtea();
-				EGOERA = CLOSED;
-			}
-			
-		}
+		iprintf("\x1b[2;5HDino Run");
+		iprintf("\x1b[4;5Hv0.1");
+		iprintf("\x1b[6;5HPress START or A to play");
+		iprintf("\x1b[8;5HSTATE: %d", STATE);
 			
 	}
-	// Etenak galarazi behar diren ikusi behar da.
+
+	denyKBStops();
+	denyTimerStops();
+	stopTimer0();
 }
 
+bool canJump() {
+	return playerY == 176;//192-16
+}
+
+void jump() {
+	playerY = 150;
+	iprintf("\x1b[16;5HPlayer Y: %d", playerY);
+}
+
+/*bool dinoKaktusTalka(){
+	int dinoX
+	int dinoW = 16;
+	int dinoH;
+	int kaktusY;
+	int kaktusW = 16;
+	int kaktusH;
+	if (
+    dinoX   < kaktusX + kaktusW &&
+    dinoX   + dinoW   > kaktusX &&
+    playerY < kaktusY + kaktusH &&
+    playerY + dinoH   > kaktusY
+  ) {
+    // Collision detected!
+	return true;
+  } else {
+    // No collision
+	return false;
+  }
+}*/
+/*void ingameToOver(){
+	cleanScreen();
+	hidePlayer();
+	changeBG(BG_OVER);
+	//showScore();
+}*/

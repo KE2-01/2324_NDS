@@ -47,5 +47,9 @@ extern touchPosition PANT_DAT;
 #define INGAME 1
 #define OVER 2
 #define STOP 3
-extern int EGOERA;
+extern int STATE;
 
+#define BG_STARTUP 0
+#define BG_INGAME 1
+#define BG_OVER 2
+#define BG_STOP 3
