@@ -21,7 +21,8 @@ extern int cactusX; // Kaktusen posizioa
 
 void game() {
 	// KB Config
-	int KB_conf = 0b0100001111111111; // No keys with interrupts, all keys with direct polling
+	//int KB_conf = 0b0100001111111111; // No keys with interrupts, all keys with direct polling
+	int KB_conf = 0b0100001111111101; // No keys with interrupts, all keys with direct polling
 	configKeyboard(KB_conf);
 
 	// Timer0 config (20 stops per second)
@@ -54,9 +55,19 @@ void game() {
 		iprintf("\x1b[10;5HPlayer can jump: %d", canJump());
 		iprintf("\x1b[12;5HPlayer Y: %d", playerY);
 		iprintf("\x1b[14;5HcactusX: %d", cactusX);
-			
+		//Inkesta bidez B tekla sakatu den ikusten da.
+		if(STATE=STARTUP||STATE=OVER){
+			if (detectKey()) {
+				int key = pressedKey();
+				iprintf("\x1b[1;1HTekla: %c", key);
+				if (pressedKey() == B) {
+					//clearScreen();
+					changeBG(stop);
+				}
+				
+			}
+		}
 	}
-
 	denyKBStops();
 	denyTimerStops();
 	stopTimer0();
@@ -70,7 +81,7 @@ void jump() {
 	playerY = 150;
 }
 
-/* bool dinoKaktusTalka(){
+bool dinoKaktusTalka(){
 	int dinoX = 0;
 	int dinoW = 16;
 	int dinoH = 16;
@@ -81,10 +92,28 @@ void jump() {
     playerY < cactusY + 16 &&
     playerY + dinoH   > cactusY
     )
-} */
+}
+	while(1)
+	{	
+		/*************************************1.JARDUERAN**************************************/
+		// ZAI egoeran dagoela, hemen teklatuaren inkesta egin, sakatu den tekla pantailaratu, eta START
+		// sakatzean egoera aldatu
+		if (detectKey()) {
+			int key = pressedKey();
+			iprintf("\x1b[1;1HTekla: %c", key);
 
-//////
+			if (pressedKey() == B) {
+				erakutsiAtea();
+				EGOERA = CLOSED;
+			}
+			
+		}
+			
+	} 
+
+/////////
 //Trash//
+/////////
 /*void ingameToOver(){
 	cleanScreen();
 	hidePlayer();

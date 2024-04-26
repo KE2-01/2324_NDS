@@ -27,11 +27,10 @@ definizioak.h
 
 
 
-// Ukimen-pantailaren erregistroak
+// Touch screen
 extern touchPosition PANT_DAT;
 
-// Teklei izena eman diegu zenbakiak nahasgarriak izan daitezkeelako
-
+// Keyboard keys
 #define A 0 
 #define B 1
 #define SELECT 2 
@@ -53,3 +52,8 @@ extern int STATE;
 #define BG_INGAME 1
 #define BG_OVER 2
 #define BG_STOP 3
+
+// Sprite IDs
+#define PLAYER 0
+#define CACTUS 1
+#define METEORITE 2

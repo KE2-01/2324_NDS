@@ -47,12 +47,12 @@ void ZE_Keyboard() {
 				changeBG(BG_INGAME);
 				STATE = INGAME;
 				break;
-		
-			case B:
+			//Inkesta bidez egiten da;
+			/* case B:
 				changeBG(BG_STOP);
 				STATE = STOP;
 				break;
-
+			 */
 			default:
 				break;
 			}
@@ -72,6 +72,13 @@ void ZE_Timer0() {
 		if (cactusX < -16) {
 			cactusX = 300;
 		} else cactusX--;
+		if (meteoriteY > 192-16) {
+			changeBG(BG_OVER);
+			STATE = OVER;
+		} else {
+			meteoriteY += 2;
+			meteoriteX --;
+		}
 	}
 	/* switch (STATE) {
 	case STARTUP:

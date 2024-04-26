@@ -33,4 +33,16 @@ extern void EzabatuErronboa(int indizea, int x, int y);
 extern void ErakutsiErronboHandia(int indizea, int x, int y);
 extern void EzabatuErronboHandia(int indizea, int x, int y);
 
+/* Sprite handler */
+extern void showSprite(int spriteID, int indizea, int x, int y);
+extern void hideSprite(int spriteID, int indizea, int x, int y);
 
+/* Just in case */
+extern void showPlayer(int indizea, int x, int y);
+extern void hidePlayer(int indizea, int x, int y);
+
+extern void showCactus(int indizea, int x, int y);
+extern void hideCactus(int indizea, int x, int y);
+
+extern void showMeteorite(int indizea, int x, int y);
+extern void hideMeteorite(int indizea, int x, int y);
