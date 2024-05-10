@@ -16,7 +16,7 @@ adibide batean oinarrituta.
 #include "fondoak.h"
 
 int denb; // denbora neurtzen joateko; baloratu ea beharrezkoa den
-int playerY; // Jokalaria Y ardatzean
+int playerY = 0; // Jokalaria Y ardatzean
 extern int cactusX; // Kaktusen posizioa
 
 void game() {
@@ -45,9 +45,6 @@ void game() {
 	STATE = STARTUP;
 
 	while(STATE != STOP) {
-		/*************************************1.JARDUERAN**************************************/
-		// ZAI egoeran dagoela, hemen teklatuaren inkesta egin, sakatu den tekla pantailaratu, eta START
-		// sakatzean egoera aldatu
 		iprintf("\x1b[2;5HDino Run");
 		iprintf("\x1b[4;5Hv0.1");
 		iprintf("\x1b[6;5HPress START or A to play");
@@ -56,13 +53,13 @@ void game() {
 		iprintf("\x1b[12;5HPlayer Y: %d", playerY);
 		iprintf("\x1b[14;5HcactusX: %d", cactusX);
 		//Inkesta bidez B tekla sakatu den ikusten da.
-		if(STATE=STARTUP||STATE=OVER){
+		if(STATE==STARTUP||STATE==OVER){
 			if (detectKey()) {
 				int key = pressedKey();
 				iprintf("\x1b[1;1HTekla: %c", key);
 				if (pressedKey() == B) {
 					//clearScreen();
-					changeBG(stop);
+					changeBG(BG_STOP);
 				}
 				
 			}
@@ -83,6 +80,7 @@ void jump() {
 
 bool dinoKaktusTalka(){
 	int dinoX = 0;
+	int dinoY = playerY;
 	int dinoW = 16;
 	int dinoH = 16;
 	int cactusY = 176;
@@ -91,12 +89,11 @@ bool dinoKaktusTalka(){
     dinoX   + dinoW   > cactusX &&
     playerY < cactusY + 16 &&
     playerY + dinoH   > cactusY
-    )
+    );
 }
-	while(1)
-	{	
-		/*************************************1.JARDUERAN**************************************/
-		// ZAI egoeran dagoela, hemen teklatuaren inkesta egin, sakatu den tekla pantailaratu, eta START
+	/* while(1){	
+		/*************************************1.JARDUERAN*************************************
+		 ZAI egoeran dagoela, hemen teklatuaren inkesta egin, sakatu den tekla pantailaratu, eta START
 		// sakatzean egoera aldatu
 		if (detectKey()) {
 			int key = pressedKey();
@@ -104,12 +101,13 @@ bool dinoKaktusTalka(){
 
 			if (pressedKey() == B) {
 				erakutsiAtea();
-				EGOERA = CLOSED;
+				EGOERA = OVER;
 			}
+			showPlayer(1, 0, playerY);
 			
 		}
 			
-	} 
+	}  */
 
 /////////
 //Trash//

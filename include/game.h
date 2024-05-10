@@ -4,6 +4,7 @@
 jokoa01
 ---------------------------------------------------------------------------------*/
 void game();
-void canJump();
+bool canJump();
 void jump();
+bool kaktusDinoTalka();
 

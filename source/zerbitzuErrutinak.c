@@ -8,11 +8,13 @@ periferikoak.c
 #include "periferikoak.h"
 #include "fondoak.h"
 #include "spriteak.h"
+#include "game.h"
 
 int STATE; // Automata zein egoeratan dagoen adierazteko erabilia
 int seg3;   // Hiru segundo pasatzen ote diren ikusten joateko
 int cactusX; // Kaktusen posizioa
-int meteoriteY; // Meteoritoen posizioa
+int meteoriteY; // Meteoritoen posizioa Y ardatzarekiko
+int meteoriteX; //Meteoritoen posizioa X ardatzarekiko
 extern int playerY; // Jokalaria Y ardatzean
 
 void ZE_Keyboard() {
@@ -36,6 +38,7 @@ void ZE_Keyboard() {
 			}
 			if (canJump() && (key == A || key == UP)) jump();
 			if (key == DOWN) {
+				cactusX=300;
 				changeBG(BG_OVER);
 				STATE = OVER;
 			}
@@ -68,11 +71,13 @@ void ZE_Timer0() {
 	if (STATE == INGAME) {
 		if (playerY < 176) {
 			playerY++;
+			showPlayer(100, 0, playerY);
 		}
-		if (cactusX < -16) {
+		if (cactusX < -100/* -16 */) {
 			cactusX = 300;
 		} else cactusX--;
-		if (meteoriteY > 192-16) {
+		if (dinoKaktusTalka()) {
+			cactusX=300;
 			changeBG(BG_OVER);
 			STATE = OVER;
 		} else {
