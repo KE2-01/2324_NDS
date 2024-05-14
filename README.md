@@ -46,4 +46,4 @@ Run the makefile
 ```
 ## Installation
 
-Download the .nds file from [the releases page](https://www.github.com/KE2-01/NDS/releases/latest).
+Download the .nds file from [the releases page](https://www.github.com/KE2-01/2324_NDS/releases/latest).
