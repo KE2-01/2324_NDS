@@ -30,11 +30,32 @@ gfxmeteorite = oamAllocateGfx(&oamMain, SpriteSize_16x16, SpriteColorFormat_256C
 
 /* Pixel bakoitzak har ditzakeen 256 balioetako bakoitzari kolore bat esleitu PANTAILA NAGUSIAN. 0 balioa gardena da 
    eta definitu gabeko balioak beltzak. SPRITEARI KOLOREAK ESLEITZEKO ALDATU*/
-void PaletaNagusiaEzarri() {
+void paletaNagusiaEzarri() {
 
-SPRITE_PALETTE[1] = RGB15(31,0,0); // 1 baliodun pixelak gorriak izango dira.
-SPRITE_PALETTE[2] = RGB15(0,31,0); // 2 baliodun pixelak berdeak izango dira.
-SPRITE_PALETTE[3] = RGB15(0,0,31); // 3 baliodun pixelak urdinak izango dira.
+	SPRITE_PALETTE[	1	] = RGB15(	31	,	0	,	0	); // 	GORRI	: RGB24={	FF	,	00	,	00	}
+	SPRITE_PALETTE[	2	] = RGB15(	31	,	31	,	0	); // 	HORI	: RGB24={	FF	,	FF	,	00	}
+	SPRITE_PALETTE[	3	] = RGB15(	31	,	31	,	31	); // 	ZURI	: RGB24={	FF	,	FF	,	FF	}
+	SPRITE_PALETTE[	4	] = RGB15(	0	,	31	,	0	); // 	BERDE	: RGB24={	00	,	FF	,	00	}
+	SPRITE_PALETTE[	5	] = RGB15(	0	,	0	,	31	); // 	URDIN	: RGB24={	00	,	00	,	FF	}
+	SPRITE_PALETTE[	6	] = RGB15(	0	,	0	,	0	); // 	BELTZ	: RGB24={	00	,	00	,	00	}
+	SPRITE_PALETTE[	7	] = RGB15(	0	,	31	,	31	); // 	ZIAN	: RGB24={	00	,	FF	,	FF	}
+	SPRITE_PALETTE[	8	] = RGB15(	31	,	0	,	31	); // 	MAGENTA	: RGB24={	FF	,	00	,	FF	}
+	SPRITE_PALETTE[	9	] = RGB15(	16	,	16	,	16	); // 	GRIS	: RGB24={	80	,	80	,	80	}
+	SPRITE_PALETTE[	10	] = RGB15(	25	,	25	,	25	); // 	GRIS ARGI	: RGB24={	D0	,	D0	,	D0	}
+	SPRITE_PALETTE[	11	] = RGB15(	8	,	8	,	8	); // 	GRIS ILUN	: RGB24={	40	,	40	,	40	}
+	SPRITE_PALETTE[	12	] = RGB15(	31	,	19	,	0	); // 	LARANJA	: RGB24={	FF	,	99	,	00	}
+	SPRITE_PALETTE[	13	] = RGB15(	19	,	0	,	4	); // 	GRANATE	: RGB24={	99	,	00	,	21	}
+	SPRITE_PALETTE[	14	] = RGB15(	25	,	0	,	0	); // 	MARROI	: RGB24={	66	,	00	,	00	}
+	SPRITE_PALETTE[	15	] = RGB15(	16	,	0	,	16	); // 	MORE	: RGB24={	80	,	00	,	80	}
+	SPRITE_PALETTE[	16	] = RGB15(	25	,	19	,	31	); // 	LILA	: RGB24={	CC	,	99	,	FF	}
+	SPRITE_PALETTE[	17	] = RGB15(	31	,	19	,	25	); // 	ARROSA	: RGB24={	FF	,	99	,	CC	}
+	SPRITE_PALETTE[	18	] = RGB15(	23	,	21	,	21	); // 	URDIN ARGI	: RGB24={	BB	,	FF	,	FF	}
+	SPRITE_PALETTE[	19	] = RGB15(	0	,	0	,	16	); // 	ITSAS URDIN	: RGB24={	00	,	00	,	80	}
+	SPRITE_PALETTE[	20	] = RGB15(	0	,	16	,	16	); // 	BERDE URDINXKA	: RGB24={	00	,	80	,	80	}
+	SPRITE_PALETTE[	21	] = RGB15(	0	,	12	,	0	); // 	BERDE ILUN	: RGB24={	00	,	66	,	00	}
+	SPRITE_PALETTE[	22	] = RGB15(	16	,	16	,	0	); // 	OLIBA-BERDE	: RGB24={	80	,	80	,	00	}
+	SPRITE_PALETTE[	23	] = RGB15(	19	,	31	,	19	); // 	VERDE ARGI	: RGB24={	99	,	FF	,	99	}
+	SPRITE_PALETTE[	24	] = RGB15(	31	,	31	,	19	); // 	HORI ARGI	: RGB24={	FF	,	FF	,	99	}
 }
 
 /* 16x16 pixeleko Sprite baten definizioa erronbo bat marrazteko */
