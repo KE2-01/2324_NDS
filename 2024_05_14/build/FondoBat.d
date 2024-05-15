@@ -1,1 +1,0 @@
-FondoBat.o: FondoBat.s

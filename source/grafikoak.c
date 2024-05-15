@@ -126,7 +126,7 @@ void HasieratuGrafikoakSpriteak()
 	hasieratuFondoak();
 	initSpriteMem();
 	memoriaErreserbatu();
-	PaletaNagusiaEzarri();
+	paletaNagusiaEzarri();
 	SpriteakMemorianGorde();
 }
 

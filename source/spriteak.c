@@ -308,6 +308,7 @@ void showPlayer(int index, int x, int y) {
 		   false, false, // vflip, hflip
 		   false		 // apply mosaic
 	);
+	oamUpdate(&oamMain);
 }
 
 void hidePlayer(int index, int x, int y) {
@@ -325,6 +326,7 @@ void hidePlayer(int index, int x, int y) {
 		   false, false, // vflip, hflip
 		   false		 // apply mosaic
 	);
+	oamUpdate(&oamMain);
 }
 
 void showCactus(int index, int x, int y) {
@@ -342,6 +344,7 @@ void showCactus(int index, int x, int y) {
 		   false, false, // vflip, hflip
 		   false		 // apply mosaic
 	);
+	oamUpdate(&oamMain);
 }
 
 void hideCactus(int index, int x, int y) {
@@ -359,6 +362,7 @@ void hideCactus(int index, int x, int y) {
 		   false, false, // vflip, hflip
 		   false		 // apply mosaic
 	);
+	oamUpdate(&oamMain);
 }
 
 void showMeteorite(int index, int x, int y) {
@@ -376,6 +380,7 @@ void showMeteorite(int index, int x, int y) {
 		   false, false, // vflip, hflip
 		   false		 // apply mosaic
 	);
+	oamUpdate(&oamMain);
 }
 
 void hideMeteorite(int index, int x, int y) {
@@ -393,6 +398,7 @@ void hideMeteorite(int index, int x, int y) {
 		   false, false, // vflip, hflip
 		   false		 // apply mosaic
 	);
+	oamUpdate(&oamMain);
 }
 
 void showSprite(int spriteID, int index, int x, int y) {
@@ -412,6 +418,7 @@ void showSprite(int spriteID, int index, int x, int y) {
 	default:
 		break;
 	}
+	oamUpdate(&oamMain);
 }
 
 void hideSprite(int spriteID, int index, int x, int y) {
@@ -431,4 +438,5 @@ void hideSprite(int spriteID, int index, int x, int y) {
 	default:
 		break;
 	}
+	oamUpdate(&oamMain);
 }

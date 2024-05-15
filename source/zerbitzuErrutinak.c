@@ -16,6 +16,7 @@ int cactusX; // Kaktusen posizioa
 int meteoriteY; // Meteoritoen posizioa Y ardatzarekiko
 int meteoriteX; //Meteoritoen posizioa X ardatzarekiko
 extern int playerY; // Jokalaria Y ardatzean
+extern int playerVY; // Jokalariaren abiadura Y ardatzean
 
 void ZE_Keyboard() {
 	if (detectKey()) {
@@ -69,20 +70,27 @@ void ZE_Keyboard() {
 
 void ZE_Timer0() {
 	if (STATE == INGAME) {
-		if (playerY < 176) {
-			playerY++;
-			showPlayer(100, 0, playerY);
+		playerY+=playerVY;
+		playerVY++;
+		if (playerY >= 176) {
+			playerY = 176;
 		}
-		if (cactusX < -100/* -16 */) {
+		if (cactusX <-16) {
 			cactusX = 300;
-		} else cactusX--;
+		} else cactusX-=2;
 		if (dinoKaktusTalka()) {
 			cactusX=300;
+			playerVY = 0;
 			changeBG(BG_OVER);
 			STATE = OVER;
 		} else {
 			meteoriteY += 2;
 			meteoriteX --;
+		hidePlayer(0,0,playerY);
+		showPlayer(0,0,playerY);
+		hideCactus(1,0,176);
+		showCactus(1,cactusX, 176);
+			
 		}
 	}
 	/* switch (STATE) {

@@ -1,1 +1,0 @@
-FondoBi.o: FondoBi.s

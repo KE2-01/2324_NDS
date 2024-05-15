@@ -17,6 +17,7 @@ adibide batean oinarrituta.
 
 int denb; // denbora neurtzen joateko; baloratu ea beharrezkoa den
 int playerY = 0; // Jokalaria Y ardatzean
+int playerVY = 0; // Jokalariaren abiadura Y ardatzean
 extern int cactusX; // Kaktusen posizioa
 
 void game() {
@@ -39,6 +40,7 @@ void game() {
 	setZE();
 	//Set variables
 	playerY = 176;
+	playerVY = 0;
 
 	// Set background
 	changeBG(BG_STARTUP);
@@ -75,7 +77,7 @@ bool canJump() {
 }
 
 void jump() {
-	playerY = 150;
+	playerVY = -7;
 }
 
 bool dinoKaktusTalka(){

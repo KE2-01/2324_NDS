@@ -10,7 +10,7 @@ extern void memoriaErreserbatu();
 /* Pixel bakoitzak har ditzakeen 256 balioetako bakoitzari kolore bat esleitu pantaila nagusian. 0 balioa gardena da 
    eta definitu gabeko balioak beltzak. */
 
-extern void PaletaNagusiaEzarri();
+extern void paletaNagusiaEzarri();
 
 /* Pixel bakoitzak har ditzakeen 256 balioetako bakoitzari kolore bat esleitu bigarren pantailan. 0 balioa 
    gardena da eta definitu gabeko balioak beltzak. */
