@@ -1,4 +1,4 @@
-# Dino Run
+# Dino Run: EVOLUTION
 "Dinosaur Game" remake for Nintendo DS
 
 Based on the game available at `chrome://dino` on Chromium based web browsers.
