@@ -1,35 +1,29 @@
-/*---------------------------------------------------------------------------------
-Kode hau garatu da dovotoren "Simple sprite demo" adibidean eta Jaeden Ameronen beste
-adibide batean oinarrituta.
----------------------------------------------------------------------------------*/
+#include <nds.h> // NDS development libraries
+#include <stdio.h> // Standard input-output libraries
+#include <stdlib.h> // Standard libraries for memory allocation and conversion
+#include <unistd.h> // Library for system compatibility
+#include "spriteak.h" // Sprite definitions
+#include "definizioak.h" // Definitions
 
-#include <nds.h> // NDS-rako garatuta dagoen liburutegia
-#include <stdio.h>// C-ko liburutegi estandarra sarrera eta irteerako funtzioak definitzen dituena
-#include <stdlib.h>// C-ko liburutegi estandarra memoria erreserbak eta zenbaki bihurketak egiteko
-#include <unistd.h>// Sistema eragileen arteko bateragarritasuna ziurtatzeko liburutegia
-#include "spriteak.h"
-#include "definizioak.h"
-
-u16* gfxerronbo;
 u16* gfxerronboHandia;
 u16* gfxdino;
 u16* gfxcactus;
 u16* gfxmeteorite;
 
 
-/* Pantailan erakutsi nahi den sprite bakoitzeko memoria erreserbatu.*/
+/**
+ * Reserve memory for the sprites
+ */
 void memoriaErreserbatu()
 {
-/* Pantaila nagusian gehitu nahi den sprite bakoitzarentzako horrelako bat egin behar da. */
-gfxerronbo= oamAllocateGfx(&oamMain, SpriteSize_16x16, SpriteColorFormat_256Color);
-gfxerronboHandia=oamAllocateGfx(&oamMain, SpriteSize_32x32, SpriteColorFormat_256Color);
 gfxdino = oamAllocateGfx(&oamMain, SpriteSize_16x16, SpriteColorFormat_256Color);
 gfxcactus = oamAllocateGfx(&oamMain, SpriteSize_16x16, SpriteColorFormat_256Color);
 gfxmeteorite = oamAllocateGfx(&oamMain, SpriteSize_16x16, SpriteColorFormat_256Color);
 }
 
-/* Pixel bakoitzak har ditzakeen 256 balioetako bakoitzari kolore bat esleitu PANTAILA NAGUSIAN. 0 balioa gardena da 
-   eta definitu gabeko balioak beltzak. SPRITEARI KOLOREAK ESLEITZEKO ALDATU*/
+/**
+ * Set the main palette
+ */
 void paletaNagusiaEzarri() {
 
 	SPRITE_PALETTE[	1	] = RGB15(	31	,	0	,	0	); // 	GORRI	: RGB24={	FF	,	00	,	00	}
@@ -58,34 +52,9 @@ void paletaNagusiaEzarri() {
 	SPRITE_PALETTE[	24	] = RGB15(	31	,	31	,	19	); // 	HORI ARGI	: RGB24={	FF	,	FF	,	99	}
 }
 
-/* 16x16 pixeleko Sprite baten definizioa erronbo bat marrazteko */
-/* Memoriako bankuek duten lan egiteko modua dela eta, lehenengo lau lerroak goiko
-   ezkerreko koadrantean erakusten dira, hurrengo lauak goiko eskuineko kuadrantean,
-   hurrengo lauak beheko ezkerreko koadrantean eta azkeneko lauak beheko eskuineko koadrantean. 
-   Alboko irudian ikusten den bezala. */
-
-u8 erronbo[256] = 
-{
-0,0,0,0,0,0,2,2,0,0,0,0,0,2,2,2,//0,0,0,0,0,0,2,2, 2,2,0,0,0,0,0,0,
-0,0,0,0,2,2,2,2,0,0,0,2,2,2,2,2,//0,0,0,0,0,2,2,2, 2,2,2,0,0,0,0,0,
-0,0,2,2,2,2,2,2,0,2,2,2,2,2,2,2,//0,0,0,0,2,2,2,2, 2,2,2,2,0,0,0,0,
-2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,//0,0,0,2,2,2,2,2, 2,2,2,2,2,0,0,0,
- 
-2,2,0,0,0,0,0,0,2,2,2,0,0,0,0,0,//0,0,2,2,2,2,2,2, 2,2,2,2,2,2,0,0,
-2,2,2,2,0,0,0,0,2,2,2,2,2,0,0,0,//0,2,2,2,2,2,2,2, 2,2,2,2,2,2,2,0,
-2,2,2,2,2,2,0,0,2,2,2,2,2,2,2,0,//2,2,2,2,2,2,2,2, 2,2,2,2,2,2,2,2,
-2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,//2,2,2,2,2,2,2,2, 2,2,2,2,2,2,2,2,
-
-1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,//1,1,1,1,1,1,1,1, 1,1,1,1,1,1,1,1,
-0,1,1,1,1,1,1,1,0,0,1,1,1,1,1,1,//1,1,1,1,1,1,1,1, 1,1,1,1,1,1,1,1,
-0,0,0,1,1,1,1,1,0,0,0,0,1,1,1,1,//0,1,1,1,1,1,1,1, 1,1,1,1,1,1,1,0,
-0,0,0,0,0,1,1,1,0,0,0,0,0,0,1,1,//0,0,1,1,1,1,1,1, 1,1,1,1,1,1,0,0,
-
-1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,//0,0,0,1,1,1,1,1, 1,1,1,1,1,0,0,0,
-1,1,1,1,1,1,1,0,1,1,1,1,1,1,0,0,//0,0,0,0,1,1,1,1, 1,1,1,1,0,0,0,0,
-1,1,1,1,1,0,0,0,1,1,1,1,0,0,0,0,//0,0,0,0,0,1,1,1, 1,1,1,0,0,0,0,0,
-1,1,1,0,0,0,0,0,1,1,0,0,0,0,0,0,//0,0,0,0,0,0,1,1, 1,1,0,0,0,0,0,0,
-};
+/**
+ * Set the sprites
+ */
 u8 cactus[256] = 
 {
 0,0,0,0,0,0,0,21,0,0,0,0,0,0,21,4, 		// 0 0  0  0  0  0  0  21 21 0  0  0  0  0  0  0 
@@ -149,45 +118,9 @@ u8 meteorite[256] =
 
 };
 
-//16x64
-u8 erronboHandia[1024] = 
-{
-0,0,0,0,0,0,2,2,0,0,0,0,0,2,2,2,0,0,0,0,2,2,2,2,0,0,0,2,2,2,2,2,0,0,2,2,2,2,2,2,0,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,
-
-3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,
-
-3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,
- 
-2,2,0,0,0,0,0,0,2,2,2,0,0,0,0,0,2,2,2,2,0,0,0,0,2,2,2,2,2,0,0,0,2,2,2,2,2,2,0,0,2,2,2,2,2,2,2,0,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,
-
-2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,
-
-0,0,0,0,0,0,1,1,0,0,0,0,0,1,1,1,0,0,0,0,1,1,1,1,0,0,0,1,1,1,1,1,0,0,1,1,1,1,1,1,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,
-
-1,1,0,0,0,0,0,0,1,1,1,0,0,0,0,0,1,1,1,1,0,0,0,0,1,1,1,1,1,0,0,0,1,1,1,1,1,1,0,0,1,1,1,1,1,1,1,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,
-
-2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,
-
-1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,
-
-2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,0,2,2,2,2,2,2,2,0,0,2,2,2,2,2,2,0,0,0,2,2,2,2,2,0,0,0,0,2,2,2,2,0,0,0,0,0,2,2,2,0,0,0,0,0,0,2,2,
-
-2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,0,2,2,2,2,2,2,0,0,2,2,2,2,2,0,0,0,2,2,2,2,0,0,0,0,2,2,2,0,0,0,0,0,2,2,0,0,0,0,0,0,
-
-1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,
-
-1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,1,1,1,1,1,1,1,0,0,1,1,1,1,1,1,0,0,0,1,1,1,1,1,0,0,0,0,1,1,1,1,0,0,0,0,0,1,1,1,0,0,0,0,0,0,1,1,
-
-3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,
-
-3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,
-
-1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,1,1,1,1,1,1,0,0,1,1,1,1,1,0,0,0,1,1,1,1,0,0,0,0,1,1,1,0,0,0,0,0,1,1,0,0,0,0,0,0,
-};
-
-/* Irudikatutako Spriteak memorian kargatzen ditu. SPRITE bat baino gehiago erakusteko
-for bana egin behar da.*/
-
+/**
+ * Save the sprites in memory
+ */
 void SpriteakMemorianGorde()
 {
 
@@ -195,104 +128,18 @@ void SpriteakMemorianGorde()
 	// 16*16ko spriteentzako
 	for (i = 0; i < 16 * 16 / 2; i++)
 	{
-		gfxerronbo[i] = erronbo[i * 2] | (erronbo[(i * 2) + 1] << 8);
 		gfxdino[i] = dino[i * 2] | (dino[(i * 2) + 1] << 8);
 		gfxcactus[i] = cactus[i * 2] | (cactus[(i * 2) + 1] << 8);
 		gfxmeteorite[i] = meteorite[i * 2] | (meteorite[(i * 2) + 1] << 8);
 	}
-	// 32*32ko spriteentzako
-	for (i = 0; i < 32 * 32 / 2; i++)
-	{
-		gfxerronboHandia[i] = erronboHandia[i * 2] | (erronboHandia[(i * 2) + 1] << 8);
-	}
 }
 
-/* Funtzio honek erronbo bat irudikatzen du pantailako x,y posizioan. Pantailan ateratzea nahi den erronbo
-   bakoitzari indize desberdin bat esleitu behar zaio, 0 eta 126 balioen arteko indizea izan daiteke */
-
-void ErakutsiErronboa(int indizea, int x, int y)
-{
-
-	oamSet(&oamMain, // main graphics engine context
-		   indizea,	 // oam index (0 to 127)
-		   x, y,	 // x and y pixel location of the sprite
-		   0,		 // priority, lower renders last (on top)
-		   0,		 // this is the palette index if multiple palettes or the alpha value if bmp sprite
-		   SpriteSize_16x16,
-		   SpriteColorFormat_256Color,
-		   gfxerronbo,	 //+16*16/2,                  // pointer to the loaded graphics
-		   -1,			 // sprite rotation data
-		   false,		 // double the size when rotating?
-		   false,		 // hide the sprite?
-		   false, false, // vflip, hflip
-		   false		 // apply mosaic
-	);
-
-	oamUpdate(&oamMain);
-}
-
-/* Funtzio honek erronbo baten indizea pasata pantailatik ezabatzen du */
-void EzabatuErronboa(int indizea, int x, int y)
-{
-
-	oamSet(&oamMain, // main graphics engine context
-		   indizea,	 // oam index (0 to 127)
-		   x, y,	 // x and y pixel location of the sprite
-		   0,		 // priority, lower renders last (on top)
-		   0,		 // this is the palette index if multiple palettes or the alpha value if bmp sprite
-		   SpriteSize_16x16,
-		   SpriteColorFormat_256Color,
-		   gfxerronbo,	 //+16*16/2,                  // pointer to the loaded graphics
-		   -1,			 // sprite rotation data
-		   false,		 // double the size when rotating?
-		   true,		 // hide the sprite?
-		   false, false, // vflip, hflip
-		   false		 // apply mosaic
-	);
-	oamUpdate(&oamMain);
-}
-
-void ErakutsiErronboHandia(int indizea, int x, int y)
-{
-
-	oamSet(&oamMain, // main graphics engine context
-		   indizea,	 // oam index (0 to 127)
-		   x, y,	 // x and y pixel location of the sprite
-		   0,		 // priority, lower renders last (on top)
-		   0,		 // this is the palette index if multiple palettes or the alpha value if bmp sprite
-		   SpriteSize_32x32,
-		   SpriteColorFormat_256Color,
-		   gfxerronboHandia, //+16*16/2,                  // pointer to the loaded graphics
-		   -1,				 // sprite rotation data
-		   false,			 // double the size when rotating?
-		   false,			 // hide the sprite?
-		   false, false,	 // vflip, hflip
-		   false			 // apply mosaic
-	);
-
-	oamUpdate(&oamMain);
-}
-
-void EzabatuErronboHandia(int indizea, int x, int y)
-{
-
-	oamSet(&oamMain, // main graphics engine context
-		   indizea,	 // oam index (0 to 127)
-		   x, y,	 // x and y pixel location of the sprite
-		   0,		 // priority, lower renders last (on top)
-		   0,		 // this is the palette index if multiple palettes or the alpha value if bmp sprite
-		   SpriteSize_32x32,
-		   SpriteColorFormat_256Color,
-		   gfxerronboHandia, //+16*16/2,                  // pointer to the loaded graphics
-		   -1,				 // sprite rotation data
-		   false,			 // double the size when rotating?
-		   true,			 // hide the sprite?
-		   false, false,	 // vflip, hflip
-		   false			 // apply mosaic
-	);
-	oamUpdate(&oamMain);
-}
-
+/**
+ * Show the player sprite
+ * @param index The index of the sprite
+ * @param x The x position of the sprite
+ * @param y The y position of the sprite
+ */
 void showPlayer(int index, int x, int y) {
 	oamSet(&oamMain, // main graphics engine context
 		   index,	 // oam index (0 to 127)
@@ -308,8 +155,15 @@ void showPlayer(int index, int x, int y) {
 		   false, false, // vflip, hflip
 		   false		 // apply mosaic
 	);
+	oamUpdate(&oamMain);
 }
 
+/**
+ * Hide the player sprite
+ * @param index The index of the sprite
+ * @param x The x position of the sprite
+ * @param y The y position of the sprite
+ */
 void hidePlayer(int index, int x, int y) {
 	oamSet(&oamMain, // main graphics engine context
 		   index,	 // oam index (0 to 127)
@@ -325,8 +179,15 @@ void hidePlayer(int index, int x, int y) {
 		   false, false, // vflip, hflip
 		   false		 // apply mosaic
 	);
+	oamUpdate(&oamMain);
 }
 
+/**
+ * Show the cactus sprite
+ * @param index The index of the sprite
+ * @param x The x position of the sprite
+ * @param y The y position of the sprite
+ */
 void showCactus(int index, int x, int y) {
 	oamSet(&oamMain, // main graphics engine context
 		   index,	 // oam index (0 to 127)
@@ -342,8 +203,15 @@ void showCactus(int index, int x, int y) {
 		   false, false, // vflip, hflip
 		   false		 // apply mosaic
 	);
+	oamUpdate(&oamMain);
 }
 
+/**
+ * Hide the cactus sprite
+ * @param index The index of the sprite
+ * @param x The x position of the sprite
+ * @param y The y position of the sprite
+ */
 void hideCactus(int index, int x, int y) {
 	oamSet(&oamMain, // main graphics engine context
 		   index,	 // oam index (0 to 127)
@@ -359,8 +227,15 @@ void hideCactus(int index, int x, int y) {
 		   false, false, // vflip, hflip
 		   false		 // apply mosaic
 	);
+	oamUpdate(&oamMain);
 }
 
+/**
+ * Show the meteorite sprite
+ * @param index The index of the sprite
+ * @param x The x position of the sprite
+ * @param y The y position of the sprite
+ */
 void showMeteorite(int index, int x, int y) {
 	oamSet(&oamMain, // main graphics engine context
 		   index,	 // oam index (0 to 127)
@@ -376,8 +251,15 @@ void showMeteorite(int index, int x, int y) {
 		   false, false, // vflip, hflip
 		   false		 // apply mosaic
 	);
+	oamUpdate(&oamMain);
 }
 
+/**
+ * Hide the meteorite sprite
+ * @param index The index of the sprite
+ * @param x The x position of the sprite
+ * @param y The y position of the sprite
+ */
 void hideMeteorite(int index, int x, int y) {
 	oamSet(&oamMain, // main graphics engine context
 		   index,	 // oam index (0 to 127)
@@ -393,42 +275,5 @@ void hideMeteorite(int index, int x, int y) {
 		   false, false, // vflip, hflip
 		   false		 // apply mosaic
 	);
-}
-
-void showSprite(int spriteID, int index, int x, int y) {
-	switch (spriteID) {
-	case 0:
-		showPlayer(index, x, y);
-		break;
-	
-	case 1:
-		showCactus(index, x, y);
-		break;
-
-	case 2:
-		showMeteorite(index, x, y);
-		break;
-
-	default:
-		break;
-	}
-}
-
-void hideSprite(int spriteID, int index, int x, int y) {
-	switch (spriteID) {
-	case 0:
-		hidePlayer(index, x, y);
-		break;
-	
-	case 1:
-		hideCactus(index, x, y);
-		break;
-
-	case 2:
-		hideMeteorite(index, x, y);
-		break;
-
-	default:
-		break;
-	}
+	oamUpdate(&oamMain);
 }

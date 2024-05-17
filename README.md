@@ -25,7 +25,12 @@ This project is protected under the [GNU GPLv3](https://choosealicense.com/licen
 ## Environment Variables
 
 None :)
-## Run Locally
+
+## Build locally
+
+### Requirements
+
+* [devkitPro pacman](https://devkitpro.org/wiki/devkitPro_pacman)
 
 Clone the project
 
