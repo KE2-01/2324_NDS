@@ -1,28 +1,23 @@
-/*---------------------------------------------------------------------------------
-Kode hau garatu da dovotoren "Simple sprite demo" adibidean eta Jaeden Ameronen beste
-adibide batean oinarrituta.
----------------------------------------------------------------------------------*/
+#include <nds.h> // NDS development libraries
+#include <stdio.h> // Standard C library for input and output functions
+#include <stdlib.h> // Standard C library for memory allocation and conversion functions
+#include <unistd.h> // Library for compatibility between operating systems
 
-#include <nds.h> 		// NDS-rako garatuta dagoen liburutegia
-#include <stdio.h>		// C-ko liburutegi estandarra sarrera eta irteerako funtzioak definitzen dituena
-#include <stdlib.h>		// C-ko liburutegi estandarra memoria erreserbak eta zenbaki bihurketak egiteko
-#include <unistd.h>		// Sistema eragileen arteko bateragarritasuna ziurtatzeko liburutegia
-
-// Guk garatutako fitxategiak
-	
 #include "definizioak.h"
 #include "periferikoak.h"
 #include "zerbitzuErrutinak.h"
-#include "fondoak.h"
+#include "backgrounds.h"
 
-int denb; // denbora neurtzen joateko; baloratu ea beharrezkoa den
-int playerY = 0; // Jokalaria Y ardatzean
-int playerVY = 0; // Jokalariaren abiadura Y ardatzean
-extern int cactusX; // Kaktusen posizioa
+int playerY = 0; // Player's Y position
+int playerVY = 0; // Player's vertical speed (jumping)
+extern int cactusX; // Cactus' X position
+extern int meteoriteY; // Meteorite's Y position
+extern int meteoriteX; // Meteorite's X position
+touchPosition PANT_DAT; // Touch screen position data (global variable)
+bool developerMode = false; // Developer mode
 
 void game() {
-	// KB Config
-	//int KB_conf = 0b0100001111111111; // No keys with interrupts, all keys with direct polling
+	// Keyboard config
 	int KB_conf = 0b0100001111111101; // No keys with interrupts, all keys with direct polling
 	configKeyboard(KB_conf);
 
@@ -38,54 +33,97 @@ void game() {
 
 	// Set ZE
 	setZE();
-	//Set variables
+	// Set initial values for the player
 	playerY = 176;
 	playerVY = 0;
 
-	// Set background
+	// Set background and state
 	changeBG(BG_STARTUP);
 	STATE = STARTUP;
 
+	// Main loop
+	// The game will be running until the state is STOP
 	while(STATE != STOP) {
+		// Print debug info
 		iprintf("\x1b[2;5HDino Run");
 		iprintf("\x1b[4;5Hv0.1");
-		iprintf("\x1b[6;5HPress START or A to play");
+		if (STATE == STARTUP) iprintf("\x1b[6;5HPress START or A to play"); // The game is in the start screen
 		iprintf("\x1b[8;5HSTATE: %d", STATE);
 		iprintf("\x1b[10;5HPlayer can jump: %d", canJump());
 		iprintf("\x1b[12;5HPlayer Y: %d", playerY);
 		iprintf("\x1b[14;5HcactusX: %d", cactusX);
-		//Inkesta bidez B tekla sakatu den ikusten da.
-		if(STATE==STARTUP||STATE==OVER){
+		iprintf("\x1b[16;5HplayerVY: %d", playerVY);
+		iprintf("\x1b[18;5HmeteoriteY: %d", meteoriteY);
+		iprintf("\x1b[20;5HmeteoriteX: %d", meteoriteX);
+		if (developerMode) iprintf("\x1b[22;5HDeveloper mode: ON");
+		else iprintf("\x1b[22;5HDeveloper mode: OFF");
+		// Check the state of the game
+		if(STATE == STARTUP || STATE == OVER) {
 			if (detectKey()) {
-				int key = pressedKey();
-				iprintf("\x1b[1;1HTekla: %c", key);
-				if (pressedKey() == B) {
-					//clearScreen();
-					changeBG(BG_STOP);
+				// If SELECT is pressed, toggle developer mode
+				if (pressedKey() == SELECT && canJump()) {
+					// Toggle developer mode
+					developerMode = !developerMode;
+					// Decrease the player's Y position by 1 to avoid toggling developer mode multiple times
+					playerY--;
+					// Clear the top screen to avoid overlapping text
+					consoleDemoInit();
 				}
-				
+				// If B is pressed, stop the game
+				if (pressedKey() == B) {
+					// Change the background to STOP
+					changeBG(BG_STOP);
+					// Change the state to STOP
+					STATE = STOP;
+				}
+			}
+		} else if (STATE == INGAME) {
+			// Handle touch screen
+			touchRead(&PANT_DAT);
+			// If the player is touching the meteorite, reset the meteorite position
+			// Added a 8 pixel margin to make it easier to touch the meteorite
+			// Otherwise, the sprite is too small and it's hard to touch it
+			if (PANT_DAT.px > meteoriteX-8 && PANT_DAT.px < meteoriteX + 24 && PANT_DAT.py > meteoriteY-8 && PANT_DAT.py < meteoriteY + 24) {
+				meteoriteY = -50;
+				meteoriteX = 250;
 			}
 		}
 	}
+
+	// Stop interrupts
 	denyKBStops();
 	denyTimerStops();
+	// Stop timer
 	stopTimer0();
 }
 
+/**
+ * Checks if the player can jump
+ * @return true if the player can jump, false otherwise
+ */
 bool canJump() {
-	return playerY == 176;//192-16
+	return playerY == 176; // 192-16 (screen height - player height)
 }
 
+/**
+ * Makes the player jump
+ */
 void jump() {
 	playerVY = -7;
 }
 
-bool dinoKaktusTalka(){
-	int dinoX = 0;
-	int dinoY = playerY;
+/**
+ * Checks if the player is colliding with the cactus
+ * @return true if the player is colliding with the cactus, false otherwise
+ */
+bool collisionCheck() {
+	int dinoX = 10;
 	int dinoW = 16;
 	int dinoH = 16;
 	int cactusY = 176;
+	// Check if the player is colliding with the cactus
+	// Removed 2 pixels from each side of the cactus
+	// Otherwise, the collision is too strict
 	return (
 	dinoX   < cactusX + 16 &&
     dinoX   + dinoW   > cactusX &&
@@ -93,30 +131,3 @@ bool dinoKaktusTalka(){
     playerY + dinoH   > cactusY
     );
 }
-	/* while(1){	
-		/*************************************1.JARDUERAN*************************************
-		 ZAI egoeran dagoela, hemen teklatuaren inkesta egin, sakatu den tekla pantailaratu, eta START
-		// sakatzean egoera aldatu
-		if (detectKey()) {
-			int key = pressedKey();
-			iprintf("\x1b[1;1HTekla: %c", key);
-
-			if (pressedKey() == B) {
-				erakutsiAtea();
-				EGOERA = OVER;
-			}
-			showPlayer(1, 0, playerY);
-			
-		}
-			
-	}  */
-
-/////////
-//Trash//
-/////////
-/*void ingameToOver(){
-	cleanScreen();
-	hidePlayer();
-	changeBG(BG_OVER);
-	//showScore();
-}*/

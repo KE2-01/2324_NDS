@@ -6,5 +6,5 @@ jokoa01
 void game();
 bool canJump();
 void jump();
-bool kaktusDinoTalka();
+bool collisionCheck();
 
