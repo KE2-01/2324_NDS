@@ -44,19 +44,26 @@ void game() {
 	// Main loop
 	// The game will be running until the state is STOP
 	while(STATE != STOP) {
-		// Print debug info
-		iprintf("\x1b[2;5HDino Run");
-		iprintf("\x1b[4;5Hv0.1");
-		if (STATE == STARTUP) iprintf("\x1b[6;5HPress START or A to play"); // The game is in the start screen
-		iprintf("\x1b[8;5HSTATE: %d", STATE);
-		iprintf("\x1b[10;5HPlayer can jump: %d", canJump());
-		iprintf("\x1b[12;5HPlayer Y: %d", playerY);
-		iprintf("\x1b[14;5HcactusX: %d", cactusX);
-		iprintf("\x1b[16;5HplayerVY: %d", playerVY);
-		iprintf("\x1b[18;5HmeteoriteY: %d", meteoriteY);
-		iprintf("\x1b[20;5HmeteoriteX: %d", meteoriteX);
-		if (developerMode) iprintf("\x1b[22;5HDeveloper mode: ON");
-		else iprintf("\x1b[22;5HDeveloper mode: OFF");
+		// If the developer mode is enabled, show the developer information
+		// Otherwise, just show the game title and instructions if needed
+		if (developerMode) {
+			iprintf("\x1b[2;5HDino Run: EVOLUTION");
+			iprintf("\x1b[4;5Hv0.1");
+			if (STATE == STARTUP) iprintf("\x1b[6;5HPress START or A to play");
+			iprintf("\x1b[8;5HSTATE: %d", STATE);
+			iprintf("\x1b[10;5HPlayer can jump: %d", canJump());
+			iprintf("\x1b[12;5HPlayer Y: %d", playerY);
+			iprintf("\x1b[14;5HcactusX: %d", cactusX);
+			iprintf("\x1b[16;5HplayerVY: %d", playerVY);
+			iprintf("\x1b[18;5HmeteoriteY: %d", meteoriteY);
+			iprintf("\x1b[20;5HmeteoriteX: %d", meteoriteX);
+			iprintf("\x1b[22;5HDeveloper mode enabled!");
+		} else {
+			iprintf("\x1b[6;5HDino Run: EVOLUTION");
+			iprintf("\x1b[8;5Hv0.1");
+			if (STATE == STARTUP) iprintf("\x1b[16;5HPress START or A to play");
+			else if (STATE == OVER) iprintf("\x1b[16;5HPress A to play again");
+		}
 		// Check the state of the game
 		if(STATE == STARTUP || STATE == OVER) {
 			if (detectKey()) {
@@ -71,6 +78,9 @@ void game() {
 				}
 				// If B is pressed, stop the game
 				if (pressedKey() == B) {
+					// Clear the top screen
+					consoleDemoInit();
+					
 					// Change the background to STOP
 					changeBG(BG_STOP);
 					// Change the state to STOP
@@ -121,9 +131,6 @@ bool collisionCheck() {
 	int dinoW = 16;
 	int dinoH = 16;
 	int cactusY = 176;
-	// Check if the player is colliding with the cactus
-	// Removed 2 pixels from each side of the cactus
-	// Otherwise, the collision is too strict
 	return (
 	dinoX   < cactusX + 16 &&
     dinoX   + dinoW   > cactusX &&
