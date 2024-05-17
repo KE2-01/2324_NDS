@@ -16,7 +16,6 @@ u16* gfxmeteorite;
  */
 void memoriaErreserbatu()
 {
-gfxerronboHandia=oamAllocateGfx(&oamMain, SpriteSize_32x32, SpriteColorFormat_256Color);
 gfxdino = oamAllocateGfx(&oamMain, SpriteSize_16x16, SpriteColorFormat_256Color);
 gfxcactus = oamAllocateGfx(&oamMain, SpriteSize_16x16, SpriteColorFormat_256Color);
 gfxmeteorite = oamAllocateGfx(&oamMain, SpriteSize_16x16, SpriteColorFormat_256Color);
@@ -119,42 +118,6 @@ u8 meteorite[256] =
 
 };
 
-//16x64
-u8 erronboHandia[1024] = 
-{
-0,0,0,0,0,0,2,2,0,0,0,0,0,2,2,2,0,0,0,0,2,2,2,2,0,0,0,2,2,2,2,2,0,0,2,2,2,2,2,2,0,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,
-
-3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,
-
-3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,
- 
-2,2,0,0,0,0,0,0,2,2,2,0,0,0,0,0,2,2,2,2,0,0,0,0,2,2,2,2,2,0,0,0,2,2,2,2,2,2,0,0,2,2,2,2,2,2,2,0,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,
-
-2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,
-
-0,0,0,0,0,0,1,1,0,0,0,0,0,1,1,1,0,0,0,0,1,1,1,1,0,0,0,1,1,1,1,1,0,0,1,1,1,1,1,1,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,
-
-1,1,0,0,0,0,0,0,1,1,1,0,0,0,0,0,1,1,1,1,0,0,0,0,1,1,1,1,1,0,0,0,1,1,1,1,1,1,0,0,1,1,1,1,1,1,1,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,
-
-2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,
-
-1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,
-
-2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,0,2,2,2,2,2,2,2,0,0,2,2,2,2,2,2,0,0,0,2,2,2,2,2,0,0,0,0,2,2,2,2,0,0,0,0,0,2,2,2,0,0,0,0,0,0,2,2,
-
-2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,0,2,2,2,2,2,2,0,0,2,2,2,2,2,0,0,0,2,2,2,2,0,0,0,0,2,2,2,0,0,0,0,0,2,2,0,0,0,0,0,0,
-
-1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,
-
-1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,1,1,1,1,1,1,1,0,0,1,1,1,1,1,1,0,0,0,1,1,1,1,1,0,0,0,0,1,1,1,1,0,0,0,0,0,1,1,1,0,0,0,0,0,0,1,1,
-
-3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,
-
-3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,
-
-1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,1,1,1,1,1,1,0,0,1,1,1,1,1,0,0,0,1,1,1,1,0,0,0,0,1,1,1,0,0,0,0,0,1,1,0,0,0,0,0,0,
-};
-
 /**
  * Save the sprites in memory
  */
@@ -168,11 +131,6 @@ void SpriteakMemorianGorde()
 		gfxdino[i] = dino[i * 2] | (dino[(i * 2) + 1] << 8);
 		gfxcactus[i] = cactus[i * 2] | (cactus[(i * 2) + 1] << 8);
 		gfxmeteorite[i] = meteorite[i * 2] | (meteorite[(i * 2) + 1] << 8);
-	}
-	// 32*32ko spriteentzako
-	for (i = 0; i < 32 * 32 / 2; i++)
-	{
-		gfxerronboHandia[i] = erronboHandia[i * 2] | (erronboHandia[(i * 2) + 1] << 8);
 	}
 }
 
@@ -317,59 +275,5 @@ void hideMeteorite(int index, int x, int y) {
 		   false, false, // vflip, hflip
 		   false		 // apply mosaic
 	);
-	oamUpdate(&oamMain);
-}
-
-/**
- * Show the selected sprite
- * @param spriteID The ID of the sprite
- * @param index The index of the sprite
- * @param x The x position of the sprite
- * @param y The y position of the sprite
- */
-void showSprite(int spriteID, int index, int x, int y) {
-	switch (spriteID) {
-	case 0:
-		showPlayer(index, x, y);
-		break;
-	
-	case 1:
-		showCactus(index, x, y);
-		break;
-
-	case 2:
-		showMeteorite(index, x, y);
-		break;
-
-	default:
-		break;
-	}
-	oamUpdate(&oamMain);
-}
-
-/**
- * Hide the selected sprite
- * @param spriteID The ID of the sprite
- * @param index The index of the sprite
- * @param x The x position of the sprite
- * @param y The y position of the sprite
- */
-void hideSprite(int spriteID, int index, int x, int y) {
-	switch (spriteID) {
-	case 0:
-		hidePlayer(index, x, y);
-		break;
-	
-	case 1:
-		hideCactus(index, x, y);
-		break;
-
-	case 2:
-		hideMeteorite(index, x, y);
-		break;
-
-	default:
-		break;
-	}
 	oamUpdate(&oamMain);
 }

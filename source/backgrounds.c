@@ -1,8 +1,3 @@
-/*---------------------------------------------------------------------------------
-Kode hau garatu da dovotoren "Simple sprite demo" adibidean eta Jaeden Ameronen beste
-adibide batean oinarrituta.
----------------------------------------------------------------------------------*/
-
 #include <nds.h> // NDS development libraries
 #include <stdio.h> // Standard C library for input and output functions
 #include <stdlib.h> // Standard C library for memory allocation and conversion functions

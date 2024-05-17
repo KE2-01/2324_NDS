@@ -2,10 +2,6 @@
 #include <stdio.h>
 #include "definizioak.h"
 
-
-int key; // Save the key pressed (probably not needed)
-
-
 /**
  * Detect if a key is pressed
  * @return 1 if a key is pressed, 0 if not
